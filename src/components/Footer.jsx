@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="border-t border-white/10 px-4 py-6">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row">
         <p className="text-xs text-white/50">
-          © {new Date().getFullYear()} Valentina Design. All rights reserved.
+          © 2023 Valentina Design. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           <a

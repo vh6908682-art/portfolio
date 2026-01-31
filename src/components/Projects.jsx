@@ -1,90 +1,143 @@
 import { useState, useEffect, useCallback } from "react";
 
-const imageGlob = import.meta.glob(
-  "../assets/projects/**/*.{jpg,webp}",
-  { eager: true }
-);
+// Explicit imports (reliable on Vercel; import.meta.glob can fail in production)
+import clueplay1 from "../assets/projects/CluePlay/Clueplay.ai1.webp";
+import clueplay2 from "../assets/projects/CluePlay/Clueplay.ai2.webp";
+import forex1 from "../assets/projects/Forex/forex1.jpg";
+import forex2 from "../assets/projects/Forex/forex2.jpg";
+import forex3 from "../assets/projects/Forex/forex3.jpg";
+import forex4 from "../assets/projects/Forex/forex4.jpg";
+import forex5 from "../assets/projects/Forex/forex5.jpg";
+import forex6 from "../assets/projects/Forex/forex6.jpg";
+import forex7 from "../assets/projects/Forex/forex7.jpg";
+import forex8 from "../assets/projects/Forex/forex8.jpg";
+import forex9 from "../assets/projects/Forex/forex9.jpg";
+import forex10 from "../assets/projects/Forex/forex10.jpg";
+import forex11 from "../assets/projects/Forex/forex11.jpg";
+import forex12 from "../assets/projects/Forex/forex12.jpg";
+import forex13 from "../assets/projects/Forex/forex13.jpg";
+import forex14 from "../assets/projects/Forex/forex14.jpg";
+import forex15 from "../assets/projects/Forex/forex15.jpg";
+import forex16 from "../assets/projects/Forex/forex16.jpg";
+import forex17 from "../assets/projects/Forex/forex17.jpg";
+import forex18 from "../assets/projects/Forex/forex18.jpg";
+import forex19 from "../assets/projects/Forex/forex19.jpg";
+import forex20 from "../assets/projects/Forex/forex20.jpg";
+import glycoso1 from "../assets/projects/Glycoso/Glycoso1.jpg";
+import glycoso2 from "../assets/projects/Glycoso/Glycoso2.jpg";
+import glycoso3 from "../assets/projects/Glycoso/Glycoso3.jpg";
+import glycoso4 from "../assets/projects/Glycoso/Glycoso4.jpg";
+import glycoso5 from "../assets/projects/Glycoso/Glycoso5.jpg";
+import glycoso6 from "../assets/projects/Glycoso/Glycoso6.jpg";
+import glycoso7 from "../assets/projects/Glycoso/Glycoso7.jpg";
+import glycoso8 from "../assets/projects/Glycoso/Glycoso8.jpg";
+import glycoso9 from "../assets/projects/Glycoso/Glycoso9.jpg";
+import glycoso10 from "../assets/projects/Glycoso/Glycoso10.jpg";
+import glycoso11 from "../assets/projects/Glycoso/Glycoso11.jpg";
+import glycoso12 from "../assets/projects/Glycoso/Glycoso12.jpg";
+import glycoso13 from "../assets/projects/Glycoso/Glycoso13.jpg";
+import glycoso14 from "../assets/projects/Glycoso/Glycoso14.jpg";
+import glycoso15 from "../assets/projects/Glycoso/Glycoso15.jpg";
+import glycoso16 from "../assets/projects/Glycoso/Glycoso16.jpg";
+import gravelu1 from "../assets/projects/Gravelu/gravelu1.jpg";
+import gravelu2 from "../assets/projects/Gravelu/gravelu2.jpg";
+import gravelu3 from "../assets/projects/Gravelu/gravelu3.jpg";
+import gravelu4 from "../assets/projects/Gravelu/gravelu4.jpg";
+import gravelu5 from "../assets/projects/Gravelu/gravelu5.jpg";
+import gravelu6 from "../assets/projects/Gravelu/gravelu6.jpg";
+import gravelu7 from "../assets/projects/Gravelu/gravelu7.jpg";
+import gravelu8 from "../assets/projects/Gravelu/gravelu8.jpg";
+import gravelu9 from "../assets/projects/Gravelu/gravelu9.jpg";
+import gravelu10 from "../assets/projects/Gravelu/gravelu10.jpg";
+import gravelu11 from "../assets/projects/Gravelu/gravelu11.jpg";
+import gravelu12 from "../assets/projects/Gravelu/gravelu12.jpg";
+import gravelu13 from "../assets/projects/Gravelu/gravelu13.jpg";
+import gravelu14 from "../assets/projects/Gravelu/gravelu14.jpg";
+import gravelu15 from "../assets/projects/Gravelu/gravelu15.jpg";
+import gravelu16 from "../assets/projects/Gravelu/gravelu16.jpg";
+import gravelu17 from "../assets/projects/Gravelu/gravelu17.jpg";
+import healthcare1 from "../assets/projects/Healthcare/Healthcare Operations Dashboard1.webp";
+import praxis1 from "../assets/projects/Praxis/Praxis Richter - Homepage Design1.webp";
+import praxis2 from "../assets/projects/Praxis/Praxis Richter - Homepage Design2.webp";
+import speakbetter1 from "../assets/projects/SpeakBetter/SpeakBetter1.webp";
+import speakbetter2 from "../assets/projects/SpeakBetter/SpeakBetter2.webp";
+import worldcup1 from "../assets/projects/WolrdCup/WorldCup1.jpg";
+import worldcup2 from "../assets/projects/WolrdCup/WorldCup2.jpg";
+import worldcup3 from "../assets/projects/WolrdCup/WorldCup3.jpg";
+import worldcup4 from "../assets/projects/WolrdCup/WorldCup4.jpg";
+import worldcup5 from "../assets/projects/WolrdCup/WorldCup5.jpg";
+import worldcup6 from "../assets/projects/WolrdCup/WorldCup6.jpg";
+import worldcup7 from "../assets/projects/WolrdCup/WorldCup7.jpg";
+import worldcup8 from "../assets/projects/WolrdCup/WorldCup8.jpg";
+import worldcup9 from "../assets/projects/WolrdCup/WorldCup9.jpg";
+import worldcup10 from "../assets/projects/WolrdCup/WorldCup10.jpg";
+import worldcup11 from "../assets/projects/WolrdCup/WorldCup11.jpg";
+import worldcup12 from "../assets/projects/WolrdCup/WorldCup12.jpg";
+import worldcup13 from "../assets/projects/WolrdCup/WorldCup13.jpg";
+import worldcup14 from "../assets/projects/WolrdCup/WorldCup14.jpg";
+import worldcup15 from "../assets/projects/WolrdCup/WorldCup15.jpg";
+import worldcup16 from "../assets/projects/WolrdCup/WorldCup16.jpg";
+import worldcup17 from "../assets/projects/WolrdCup/WorldCup17.jpg";
+import worldcup18 from "../assets/projects/WolrdCup/WorldCup18.jpg";
 
-const byFolder = {};
-for (const [path, mod] of Object.entries(imageGlob)) {
-  const parts = path.replace(/^\.\.\//, "").split("/");
-  const folder = parts[parts.length - 2];
-  const file = parts[parts.length - 1];
-  if (!byFolder[folder]) byFolder[folder] = [];
-  const url = typeof mod === "string" ? mod : mod?.default;
-  if (url) byFolder[folder].push({ file, url });
-}
-for (const folder of Object.keys(byFolder)) {
-  byFolder[folder].sort((a, b) => {
-    const na = parseInt(a.file.replace(/\D/g, ""), 10) || 0;
-    const nb = parseInt(b.file.replace(/\D/g, ""), 10) || 0;
-    return na - nb;
-  });
-}
-
-const projectMeta = [
+const projects = [
   {
-    folder: "CluePlay",
     title: "Clueplay.ai",
+    images: [clueplay1, clueplay2],
     summary: "OTT platform revamp with a cinematic, user-centric interface.",
     description:
       "Website revamp exploring rich content previews, smooth transitions, and effortless navigation—helping users discover, engage, and continue watching seamlessly. A modern OTT experience that feels immersive and intuitive.",
   },
   {
-    folder: "Forex",
     title: "Forex",
+    images: [forex1, forex2, forex3, forex4, forex5, forex6, forex7, forex8, forex9, forex10, forex11, forex12, forex13, forex14, forex15, forex16, forex17, forex18, forex19, forex20],
     summary: "Trading and forex platform UI with clear data visualization.",
     description:
       "Dashboard and landing design for a forex platform. Focus on clarity, trust, and easy access to key metrics and trading tools across devices.",
   },
   {
-    folder: "Glycoso",
     title: "Glycoso",
+    images: [glycoso1, glycoso2, glycoso3, glycoso4, glycoso5, glycoso6, glycoso7, glycoso8, glycoso9, glycoso10, glycoso11, glycoso12, glycoso13, glycoso14, glycoso15, glycoso16],
     summary: "Health and wellness product site with a clean, approachable look.",
     description:
       "Web presence for a health-focused product. Clean layout and visual hierarchy to communicate values and guide users through information and actions.",
   },
   {
-    folder: "Gravelu",
     title: "Gravelu",
+    images: [gravelu1, gravelu2, gravelu3, gravelu4, gravelu5, gravelu6, gravelu7, gravelu8, gravelu9, gravelu10, gravelu11, gravelu12, gravelu13, gravelu14, gravelu15, gravelu16, gravelu17],
     summary: "Brand and product website with a distinct visual identity.",
     description:
       "Full-site design balancing brand personality with usability. Responsive layouts and clear CTAs to support discovery and conversion.",
   },
   {
-    folder: "Healthcare",
     title: "Healthcare Operations Dashboard",
+    images: [healthcare1],
     summary: "Admin dashboard for managing patient and doctor operations.",
     description:
       "Centralized platform for healthcare administrators to oversee appointments, patient records, and doctor assignments. Built for efficiency and clarity.",
   },
   {
-    folder: "Praxis",
     title: "Praxis Richter",
+    images: [praxis1, praxis2],
     summary: "Modern dental clinic website focused on patient experience.",
     description:
       "Thoughtfully designed to enhance patient experience and inspire confidence. Clean layout and calming visual language for trust and professionalism. Patients can explore services, book appointments, and navigate with ease.",
   },
   {
-    folder: "SpeakBetter",
     title: "SpeakBetter",
+    images: [speakbetter1, speakbetter2],
     summary: "App UI that tracks filler words and supports confident speaking.",
     description:
       "UI/UX for an app that tracks filler words in real time and helps users speak more confidently by reducing them step by step. Simple, focused interface.",
   },
   {
-    folder: "WolrdCup",
     title: "WorldCup",
+    images: [worldcup1, worldcup2, worldcup3, worldcup4, worldcup5, worldcup6, worldcup7, worldcup8, worldcup9, worldcup10, worldcup11, worldcup12, worldcup13, worldcup14, worldcup15, worldcup16, worldcup17, worldcup18],
     summary: "Event-themed web experience for a World Cup–related project.",
     description:
       "Landing and UI design with an event-driven, energetic feel. Responsive and engaging for fans and users during the campaign.",
   },
 ];
-
-const projects = projectMeta.map((p) => ({
-  ...p,
-  images: (byFolder[p.folder] || []).map((x) => x.url),
-}));
 
 export default function Projects() {
   const [current, setCurrent] = useState(0);
